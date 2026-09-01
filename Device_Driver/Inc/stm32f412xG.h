@@ -1,5 +1,5 @@
-#ifndef STM32F411XE_H
-#define STM32F411XE_H
+#ifndef STM32F412XG_H
+#define STM32F412XG_H
 
 #include "stdint.h"
 
