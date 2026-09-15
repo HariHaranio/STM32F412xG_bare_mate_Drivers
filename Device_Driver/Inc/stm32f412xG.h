@@ -3,24 +3,21 @@
 
 #include "stdint.h"
 
-/* =========================================================
- * Peripheral Base Addresses
- * ========================================================= */
-
-#define AHB1PERIPH_BASEADDR    0x40020000U
-
+/* =========================================================*/
+/*APB & AHB Peripherals*/
+#define APB1PERIPH_BASEADDR 0x40000000U
+#define APB2PERIPH_BASEADDR 0x40007400U
+#define AHB1PERIPH_BASEADDR 0x40020000U
+#define AHB2PERIPH_BASEADDR 0x50000000U
 
 /* =========================================================
  * RCC
  * ========================================================= */
-
 #define RCC_BASEADDR           0x40023800U
-
 
 /* =========================================================
  * GPIO Base Addresses
  * ========================================================= */
-
 #define GPIOA_BASEADDR          (AHB1PERIPH_BASEADDR + 0x0000U)
 #define GPIOB_BASEADDR          (AHB1PERIPH_BASEADDR + 0x0400U)
 #define GPIOC_BASEADDR          (AHB1PERIPH_BASEADDR + 0x0800U)
@@ -30,13 +27,10 @@
 #define GPIOG_BASEADDR			(AHB1PERIPH_BASEADDR + 0x1800U)
 #define GPIOH_BASEADDR        	(AHB1PERIPH_BASEADDR + 0x1C00U)
 
-
 /* =========================================================
  * GPIO Register Structure
  * ========================================================= */
-
-typedef struct
-{
+typedef struct{
     volatile uint32_t MODER;       /* Offset 0x00 */
     volatile uint32_t OTYPER;      /* Offset 0x04 */
     volatile uint32_t OSPEEDR;     /* Offset 0x08 */
@@ -47,7 +41,6 @@ typedef struct
     volatile uint32_t LCKR;        /* Offset 0x1C */
     volatile uint32_t AFRL;        /* Offset 0x20 */
     volatile uint32_t AFRH;        /* Offset 0x24 */
-
 } GPIO_RegDef;
 
 
@@ -55,8 +48,7 @@ typedef struct
  * RCC Register Structure
  * ========================================================= */
 
-typedef struct
-{
+typedef struct{
     volatile uint32_t CR;
     volatile uint32_t PLLCFGR;
     volatile uint32_t CFGR;
@@ -127,18 +119,13 @@ typedef struct
 #define GPIOG    ((GPIO_RegDef *)GPIOG_BASEADDR)
 #define GPIOH    ((GPIO_RegDef *)GPIOH_BASEADDR)
 
-
 /* =========================================================
  * RCC Peripheral Pointer
  * ========================================================= */
-
 #define RCC      ((RCC_RegDef *)RCC_BASEADDR)
-
-#define SYSTICK_BASE    0xE000E010UL
 /* =========================================================
  * GPIO Bit Masks & GPIO Shift Values
  * ========================================================= */
-
 #define GPIO_MODER_BITMASK 		0x3
 #define GPIO_OSPEEDR_BITMASK    0x3
 #define GPIO_PUPDR_BITMASK		0x3
@@ -153,8 +140,64 @@ typedef struct
 /* =====================================================
    SYSTICK
    ===================================================== */
+#define SYSTICK_BASE_ADDR   0xE000E010UL											// BASE ADDRESS
 
-#define SYSTICK_CTRL    (*(volatile unsigned int *)(SYSTICK_BASE + 0x00UL))
-#define SYSTICK_LOAD    (*(volatile unsigned int *)(SYSTICK_BASE + 0x04UL))
-#define SYSTICK_VAL     (*(volatile unsigned int *)(SYSTICK_BASE + 0x08UL))
+#define SYSTICK_CTRL        (*(volatile uint32_t *)(SYSTICK_BASE_ADDR + 0x00))		// SysTick control and status register (STK_CTRL)
+#define SYSTICK_LOAD        (*(volatile uint32_t *)(SYSTICK_BASE_ADDR + 0x04))		// SysTick reload value register (STK_LOAD)
+#define SYSTICK_VAL         (*(volatile uint32_t *)(SYSTICK_BASE_ADDR + 0x08))		// SysTick current value register (STK_VAL)
+#define SYSTICK_CALIB       (*(volatile uint32_t *)(SYSTICK_BASE_ADDR + 0x0C))		// SysTick calibration value register (STK_CALIB)
+
+/*SYSCONFIG Related Macros*/
+typedef struct
+{
+	volatile uint32_t MEMRMP;      // Memory Remap Register
+	volatile uint32_t PMC;		   // Peripheral Mode Config Register
+	volatile uint32_t EXTICR[4];   // External Interrupt Config Register
+	volatile uint32_t RESERVED[2]; // Reserved Registers
+	volatile uint32_t CMPCR; 	   // Compensation Cell Control Register
+}SYSCFG_RegDef;
+
+
+#define SYSCFG_BASE_ADDR   		0x40013800U
+
+/*SYSCFG Pointer to Struct Macro */
+#define SYSCFG					((SYSCFG_RegDef*)SYSCFG_BASE_ADDR)
+
+
+/*EXTI Register Stuct*/
+typedef struct
+{
+	volatile uint32_t IMR;		/*Interrupt Mask Register*/
+	volatile uint32_t EMR;		/*Event Mask Register*/
+	volatile uint32_t RTSR;		/*Rising Trigger Selection Register*/
+	volatile uint32_t FTSR;		/*Falling Trigger Selection Register*/
+	volatile uint32_t SWIER;	/*Software Interrupt Event Register*/
+	volatile uint32_t PR;		/*Pending Register*/
+}EXTI_RegDef;
+
+/*Macros related to EXTI Peripherals */
+#define  EXTI_BASEADDR			0x40013C00U
+#define  EXTI 					((EXTI_RegDef*)EXTI_BASEADDR)
+
+/*EXTI Interrupt number*/
+#define EXTI0_IRQn			6
+#define EXTI1_IRQn			7
+#define EXTI2_IRQn			8
+#define EXTI3_IRQn			9
+#define EXTI4_IRQn			10
+#define EXTI9_5IRQn			23
+#define EXTI15_10IRQn    	40
+
+
+/*NVIC Related Macros*/
+#define NVIC_BASE_ADDR			 0xE000E100U
+
+#define NVIC_ISERx_BASE			 ((volatile uint32_t*)NVIC_BASE_ADDR)
+#define NVIC_ICERx_BASE          ((volatile uint32_t*)0xE000E180U)
+#define NVIC_ISPRx_BASE          ((volatile uint32_t*)0xE000E200U)
+#define NVIC_ICPRx_BASE          ((volatile uint32_t*)0xE000E280U)
+#define NVIC_IABRx_BASE          ((volatile uint32_t*)0xE000E300U)
+#define NVIC_IPRx_BASE		     ((volatile uint8_t*)0xE000E400U)
+
+
 #endif
