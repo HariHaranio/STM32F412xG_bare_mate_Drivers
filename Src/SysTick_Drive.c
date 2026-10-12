@@ -16,7 +16,8 @@
  */
 
 
-void SysTick_Init(void){
+void SysTick_Init(void)
+{
     // Set the reload value
     SYSTICK_LOAD = 16000 - 1;
 
@@ -45,7 +46,8 @@ volatile uint32_t msTicks = 0;
 /*
  * SysTick interrupt handler
  */
-void SysTick_Handler(void){
+void SysTick_Handler(void)
+{
     msTicks++;
 }
 /*		Time          msTicks
@@ -59,7 +61,8 @@ void SysTick_Handler(void){
 
  * Generate delay in milliseconds
  */
-void SysTick_DelayMs(uint32_t delay){
+void SysTick_DelayMs(uint32_t delay)
+{
     uint32_t start = msTicks;
 
     // Wait until the requested time has elapsed

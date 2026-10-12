@@ -5,7 +5,8 @@
 #include "stdint.h"
 #include "stdbool.h"
 
-typedef enum{
+typedef enum
+{
 	EXTI_TRIGGER_RISING,
 	EXTI_TRIGGER_FALLING,
 	EXTI_TRIGGER_BOTH

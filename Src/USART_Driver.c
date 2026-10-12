@@ -23,7 +23,7 @@ void USART_Init(USART_Struct_T *usartConfig)
     if(!pUsart)
         return;
 
-    RCC_EnableUSART(pUsart);
+    RCC_Enable_USART(pUsart);
     USART_ConfigureGPIO(usartConfig->usartID);
 
 
@@ -90,10 +90,10 @@ void USART_Init(USART_Struct_T *usartConfig)
 
     /* Get USART peripheral clock */
     if((pUsart == USART1) || (pUsart == USART6)) {
-        USART_PeripheralClockFreq = RCC_GetPCLK2();
+        USART_PeripheralClockFreq = RCC_Get_PCLK2();
     }
     else{
-        USART_PeripheralClockFreq = RCC_GetPCLK1();
+        USART_PeripheralClockFreq = RCC_Get_PCLK1();
     }
 
 
@@ -145,7 +145,7 @@ void USART_DeInit(USART_Struct_T *usartConfig){
     usartConfig->USARTInstance->CR1 &= ~(USARTx_CR1_UE);
 
     /* Disable USART Peripheral Clock */
-    RCC_DisableUSART(usartConfig->USARTInstance);
+    RCC_Disable_USART(usartConfig->USARTInstance);
 }
 
 
@@ -286,7 +286,7 @@ void USART_ConfigureGPIO(USART_EN_ID_T usartId){
          * Alternate Function - 7
          */
 
-        RCC_EnableGPIO(GPIOA);
+        RCC_Enable_GPIO(GPIOA);
 
         GpioUsartPinConfig.pin = 9;
         GpioUsartPinConfig.alternatefunc = 7;
@@ -305,7 +305,7 @@ void USART_ConfigureGPIO(USART_EN_ID_T usartId){
          * Alternate Function - 7
          */
 
-        RCC_EnableGPIO(GPIOA);
+        RCC_Enable_GPIO(GPIOA);
 
         GpioUsartPinConfig.pin = 2;
         GpioUsartPinConfig.alternatefunc = 7;
@@ -324,7 +324,7 @@ void USART_ConfigureGPIO(USART_EN_ID_T usartId){
          * Alternate Function - 7
          */
 
-        RCC_EnableGPIO(GPIOD);
+        RCC_Enable_GPIO(GPIOD);
 
         GpioUsartPinConfig.pin = 8;
         GpioUsartPinConfig.alternatefunc = 7;
@@ -343,7 +343,7 @@ void USART_ConfigureGPIO(USART_EN_ID_T usartId){
          * Alternate Function - 8
          */
 
-        RCC_EnableGPIO(GPIOC);
+        RCC_Enable_GPIO(GPIOC);
 
         GpioUsartPinConfig.pin = 6;
         GpioUsartPinConfig.alternatefunc = 8;

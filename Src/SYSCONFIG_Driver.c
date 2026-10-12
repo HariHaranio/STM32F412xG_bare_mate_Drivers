@@ -1,7 +1,8 @@
 #include "SYSCONFIG_Driver.h"
 
 /* This function accepts two inputs and configures the SYSCFG_EXTICRx Register*/
-void SYSCFG_SetEXTISource(uint8_t EXTILine, uint8_t EXTILineVal){
+void SYSCFG_SetEXTISource(uint8_t EXTILine, uint8_t EXTILineVal)
+{
 	uint8_t regIndex;
 	uint8_t bitPos;
 

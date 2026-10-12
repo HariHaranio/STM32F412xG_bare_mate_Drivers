@@ -2,7 +2,7 @@
 
 
 /*This function Initializes the GPIO Port Pin*/
-void GPIO_Init(GPIO_RegDef *port, GPIO_PINCONFIG_T *pinConfig)
+void GPIO_Init(GPIO_RegDef_T *port, GPIO_PINCONFIG_T *pinConfig)
 {
 	uint8_t pin = pinConfig->pin;
 
@@ -25,7 +25,7 @@ void GPIO_Init(GPIO_RegDef *port, GPIO_PINCONFIG_T *pinConfig)
 			port->AFRL &= ~(GPIO_AFR_MASK << (GPIO_AFR_SHIFT_BITS*pin));
 			port->AFRL |= ((pinConfig->alternatefunc & GPIO_AFR_MASK) << (GPIO_AFR_SHIFT_BITS * pin));
 		}
-		else if(pin >= GPIO_AFR_SIZE || pin <=GPIO_AFR_MAXSIZE)
+		else if(pin >= GPIO_AFR_SIZE && pin <=GPIO_AFR_MAXSIZE)
 		{
 			port->AFRH &= ~(GPIO_AFR_MASK << (GPIO_AFR_SHIFT_BITS*(pin-GPIO_AFR_SIZE)));
 			port->AFRH |= ((pinConfig->alternatefunc & GPIO_AFR_MASK) << (GPIO_AFR_SHIFT_BITS * (pin-GPIO_AFR_SIZE)));
@@ -34,7 +34,7 @@ void GPIO_Init(GPIO_RegDef *port, GPIO_PINCONFIG_T *pinConfig)
 }
 
 /*This function DeInitializes the GPIO Port Pin*/
-void GPIO_DeInit_Pin(GPIO_RegDef *port,GPIO_PINCONFIG_T *pinConfig)
+void GPIO_DeInit_Pin(GPIO_RegDef_T *port,GPIO_PINCONFIG_T *pinConfig)
 {
 	uint8_t pin = pinConfig->pin;
 
@@ -55,7 +55,7 @@ void GPIO_DeInit_Pin(GPIO_RegDef *port,GPIO_PINCONFIG_T *pinConfig)
 	}
 }
 
-void GPIO_DeInit(GPIO_RegDef *port)
+void GPIO_DeInit(GPIO_RegDef_T *port)
 {
 	/*Reset the AHB1RSTR GPIO Specific bit*/
 
@@ -101,42 +101,42 @@ void GPIO_DeInit(GPIO_RegDef *port)
 	}
 }
 /*This function toggles a particular GPIO Pin*/
-void GPIO_TogglePin(GPIO_RegDef *port, uint8_t pin)
+void GPIO_TogglePin(GPIO_RegDef_T *port, uint8_t pin)
 {
      port->ODR ^= (1 << pin);
 }
 
 /*This function Sets a particular GPIO Pin*/
-void GPIO_SetPin(GPIO_RegDef *port, uint8_t pin)
+void GPIO_SetPin(GPIO_RegDef_T *port, uint8_t pin)
 {
 	port->ODR |= ( 1 << pin);
 }
 
 /*This function Sets a particular GPIO Pin*/
-void GPIO_ResetPin(GPIO_RegDef *port, uint8_t pin)
+void GPIO_ResetPin(GPIO_RegDef_T *port, uint8_t pin)
 {
     port->ODR &= ~(1 << pin);
 }
 /*This function reads a particular GPIO Pin*/
-uint8_t GPIO_ReadPin(GPIO_RegDef *port, uint8_t pin)
+uint8_t GPIO_ReadPin(GPIO_RegDef_T *port, uint8_t pin)
 {
 	return (port->IDR & ( 1 << pin));
 }
 
 /*This function Writes to a particular GPIO Port*/
-void GPIO_WritePort(GPIO_RegDef *port, uint32_t portVal)
+void GPIO_WritePort(GPIO_RegDef_T *port, uint32_t portVal)
 {
 	port->ODR |= portVal;
 }
 
 /*This function Reads a particular GPIO Port*/
-uint32_t GPIO_ReadPort(GPIO_RegDef *port)
+uint32_t GPIO_ReadPort(GPIO_RegDef_T *port)
 {
 	return port->IDR;
 }
 
 /*This function locks a particular GPIO Pin*/
-void GPIO_Lock(GPIO_RegDef *port, uint8_t pin)
+void GPIO_Lock(GPIO_RegDef_T *port, uint8_t pin)
 {
 
 }
